@@ -45,7 +45,9 @@ internal sealed class MainController : BaseController
     {
         _mainMenuController?.Dispose();
         _gameController?.Dispose();
+		_trailController.OnDispose();
         _profilePlayer.CurrentState.UnSubscriptionOnChange(OnChangeGameState);
-        base.OnDispose();
+        
+		base.OnDispose();
     }
 }
