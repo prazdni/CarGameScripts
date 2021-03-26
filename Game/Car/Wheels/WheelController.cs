@@ -30,6 +30,7 @@ namespace Game
         {
             _leftMove.UnSubscriptionOnChange(Move);
             _rightMove.UnSubscriptionOnChange(Move);
+            
             base.OnDispose();
         }
 

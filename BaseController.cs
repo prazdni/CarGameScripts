@@ -30,6 +30,7 @@ internal abstract class BaseController : IDisposable
                 {
                     Object.Destroy(cachedGameObject);
                 }
+                
                 _gameObjects.Clear();
             }
             

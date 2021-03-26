@@ -14,6 +14,7 @@ namespace Game
             _carView = LoadView();
             
             WheelController wheelController = new WheelController(_carView, leftMove, rightMove);
+            AddController(wheelController);
         }
 
         private CarView LoadView()
