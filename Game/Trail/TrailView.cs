@@ -37,6 +37,7 @@ namespace Game.Trail
             {
                 _trailRenderer.enabled = false;
             }
+            
             #if UNITY_EDITOR
             if (Input.GetMouseButtonDown(0))
             {
