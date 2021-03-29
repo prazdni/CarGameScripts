@@ -10,10 +10,14 @@ namespace Game.Trail
     {
         private Camera _camera;
         [SerializeField] private TrailRenderer _trailRenderer;
+
+        private bool _isCamera;
         
         private void Awake()
         {
             _camera = Camera.main;
+
+            _isCamera = _camera != null;
         }
 
         public void Init()
@@ -28,23 +32,25 @@ namespace Game.Trail
 
         public void Move()
         {
-            if (Input.touchCount > 0)
+            if (_isCamera)
             {
-                _trailRenderer.enabled = true;
-                transform.position = _camera.ScreenToWorldPoint(Input.touches[0].position) + Vector3.forward;
-            }
-            else
-            {
-                _trailRenderer.enabled = false;
-            }
+                if (Input.touchCount > 0)
+                {
+                    _trailRenderer.enabled = true;
+                    transform.position = _camera.ScreenToWorldPoint(Input.touches[0].position) + Vector3.forward;
+                }
+                else
+                {
+                    _trailRenderer.enabled = false;
+                }
             
-            #if UNITY_EDITOR
-            if (Input.GetMouseButtonDown(0))
-            {
-                transform.position = _camera.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward;
+#if UNITY_EDITOR
+                if (Input.GetMouseButtonDown(0))
+                {
+                    transform.position = _camera.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward;
+                }
+#endif
             }
-            #endif
-            
         }
     }
 }
