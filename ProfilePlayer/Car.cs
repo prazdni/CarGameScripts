@@ -1,13 +1,24 @@
 ﻿
+using CarGameScripts.Feature.ShedFeature.Interface;
+
 namespace Profile
 {
-    internal sealed class Car
+    public sealed class Car : IUpgradable
     {
-        public float Speed { get; }
+        public float Speed { get; set; }
+
+        private readonly float _defaultSpeed;
         
         public Car(float speed)
         {
-            Speed = speed;
+            _defaultSpeed = speed;
+            
+            Restore();
+        }
+        
+        public void Restore()
+        {
+            Speed = _defaultSpeed;
         }
     }
 }

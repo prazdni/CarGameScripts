@@ -8,7 +8,6 @@ internal sealed class MainController : BaseController
 {
     private MainMenuController _mainMenuController;
     private GameController _gameController;
-    private TrailController _trailController;
     private readonly Transform _placeForUi;
     private readonly ProfilePlayer _profilePlayer;
     
@@ -18,8 +17,6 @@ internal sealed class MainController : BaseController
         _placeForUi = placeForUi;
         OnChangeGameState(_profilePlayer.CurrentState.Value);
         profilePlayer.CurrentState.SubscribeOnChange(OnChangeGameState);
-        
-        _trailController = new TrailController();
     }
 
     private void OnChangeGameState(GameState state)
@@ -45,7 +42,6 @@ internal sealed class MainController : BaseController
     {
         _mainMenuController?.Dispose();
         _gameController?.Dispose();
-		_trailController.Dispose();
         _profilePlayer.CurrentState.UnSubscriptionOnChange(OnChangeGameState);
         
 		base.OnDispose();
