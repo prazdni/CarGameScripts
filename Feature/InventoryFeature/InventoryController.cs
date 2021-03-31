@@ -4,6 +4,7 @@ using System.Linq;
 using CarGameScripts.ContentDataSource.Items.Interface;
 using CarGameScripts.Feature.InventoryFeature.Interface;
 using JetBrains.Annotations;
+using UnityEngine;
 
 namespace CarGameScripts.Feature.InventoryFeature
 {
@@ -21,6 +22,8 @@ namespace CarGameScripts.Feature.InventoryFeature
             _inventoryModel = inventoryModel ?? throw new ArgumentNullException(nameof(inventoryModel));
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _inventoryView = inventoryView ?? throw new ArgumentNullException(nameof(inventoryView));
+
+            SetupView(_inventoryView);
         }
         
         protected override void OnDispose()
@@ -33,6 +36,8 @@ namespace CarGameScripts.Feature.InventoryFeature
         {
             inventoryView.Selected += OnItemSelected;
             inventoryView.Deselected += OnItemDeselected;
+            
+            inventoryView.Init();
         }
         
         private void CleanupView()
@@ -61,11 +66,13 @@ namespace CarGameScripts.Feature.InventoryFeature
         
         private void OnItemSelected(object sender, IItem item)
         {
+            Debug.Log("Equipped");
             _inventoryModel.EquipItem(item);
         }
         
         private void OnItemDeselected(object sender, IItem item)
         {
+            Debug.Log("Unequipped");
             _inventoryModel.UnequipItem(item);
         }
     }

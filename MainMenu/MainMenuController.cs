@@ -24,7 +24,7 @@ namespace Ui
             _view.Init(StartGame);
 
             var cursorTrailController = ConfigureCursorTrail();
-            var shedController = ConfigureShedController(placeForUi, profilePlayer);
+            //var shedController = ConfigureShedController(placeForUi, profilePlayer);
         }
         
         private BaseController ConfigureCursorTrail()

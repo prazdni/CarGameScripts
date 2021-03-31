@@ -10,5 +10,6 @@ namespace CarGameScripts.Feature.InventoryFeature.Interface
         event EventHandler<IItem> Selected;
         event EventHandler<IItem> Deselected;
         void Display(List<IItem> items);
+        void Init();
     }
 }

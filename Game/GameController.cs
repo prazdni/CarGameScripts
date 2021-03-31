@@ -4,6 +4,7 @@ using CarGameScripts.ContentDataSource.Items;
 using CarGameScripts.Feature.AbilitiesFeature;
 using CarGameScripts.Feature.AbilitiesFeature.Interface;
 using CarGameScripts.Feature.InventoryFeature;
+using CarGameScripts.Feature.InventoryFeature.Interface;
 using Game.InputLogic;
 using Game.TapeBackground;
 using Game.Trail;
@@ -27,6 +28,28 @@ namespace Game
             AddController(carController);
             
             var abilityController = ConfigureAbilityController(placeForUi, carController);
+            var inventoryController = ConfigureInventoryController(placeForUi);
+        }
+
+        private IInventoryController ConfigureInventoryController(Transform placeForUi)
+        {
+            var upgradeItemsConfigCollection 
+                = ContentDataSourceLoader.LoadUpgradeItemConfigs(new ResourcePath {PathResource = "DataSource/Upgrade/UpgradeItemConfigDataSource"});
+            
+            var itemsRepository 
+                = new ItemsRepository(upgradeItemsConfigCollection.Select(value => value.ItemConfig).ToList());
+            var inventoryModel
+                = new InventoryModel();
+            var inventoryViewPath
+                = new ResourcePath {PathResource = $"Prefabs/{nameof(InventoryView)}"};
+            var inventoryView 
+                = ResourceLoader.LoadAndInstantiateObject<InventoryView>(inventoryViewPath, placeForUi, false);
+            AddGameObjects(inventoryView.gameObject);
+            var inventoryController 
+                = new InventoryController(itemsRepository, inventoryModel, inventoryView);
+            AddController(inventoryController);
+
+            return inventoryController;
         }
         
         private IAbilitiesController ConfigureAbilityController(Transform placeForUi, IAbilityActivator abilityActivator)
