@@ -2,7 +2,9 @@
 {
     public enum AbilityType
     {
-        None = 0,
-        Gun  = 1
+        None   = 0,
+        Gun    = 1,
+        Jump   = 2,
+        Shield = 3
     }
 }

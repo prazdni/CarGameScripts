@@ -55,7 +55,8 @@ namespace CarGameScripts.Feature.InventoryFeature
 
         public void HideInventory()
         {
-            throw new NotImplementedException();
+            _inventoryView.Hide();
+            _hideAction?.Invoke();
         }
         
         private void OnItemSelected(object sender, IItem item)

@@ -7,12 +7,12 @@ using UnityEngine;
 namespace CarGameScripts.Feature.InventoryFeature
 {
     public class InventoryView : MonoBehaviour, IInventoryView
-    {
+    { 
         public event EventHandler<IItem> Selected;
         public event EventHandler<IItem> Deselected;
 
         private List<IItem> _itemInfoCollection;
-        
+
         public void Display(List<IItem> items)
         {
             _itemInfoCollection = items;

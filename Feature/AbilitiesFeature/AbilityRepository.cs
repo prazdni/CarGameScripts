@@ -36,6 +36,8 @@ namespace CarGameScripts.Feature.AbilitiesFeature
             {
                 case AbilityType.Gun:
                     return new GunAbility(config);
+                case AbilityType.Jump:
+                    return new JumpAbility(config);
                 default:
                     return StubAbility.Default;
             }

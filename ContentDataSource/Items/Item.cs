@@ -1,6 +1,7 @@
-﻿using CarGameScripts.Items.Interface;
+﻿using CarGameScripts.Items;
+using CarGameScripts.Items.Interface;
 
-namespace CarGameScripts.Items
+namespace CarGameScripts.ContentDataSource.Items
 {
     public class Item : IItem
     {
