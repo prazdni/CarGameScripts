@@ -1,4 +1,4 @@
-﻿namespace CarGameScripts.Configs
+﻿namespace CarGameScripts.ContentDataSource.Upgrade
 {
     public enum UpgradeType
     {

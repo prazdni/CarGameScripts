@@ -1,8 +1,9 @@
 ﻿using System;
+using CarGameScripts.ContentDataSource.Items.Interface;
 using CarGameScripts.Feature.AbilitiesFeature.Interface;
 using CarGameScripts.Feature.InventoryFeature.Interface;
-using CarGameScripts.Items.Interface;
 using JetBrains.Annotations;
+using UnityEngine;
 
 namespace CarGameScripts.Feature.AbilitiesFeature
 {
@@ -30,6 +31,7 @@ namespace CarGameScripts.Feature.AbilitiesFeature
         private void SetupView(IAbilityCollectionView view)
         {
             view.UseRequested += OnAbilityUseRequested;
+            view.Init();
         }
         
         private void CleanupView(IAbilityCollectionView view)

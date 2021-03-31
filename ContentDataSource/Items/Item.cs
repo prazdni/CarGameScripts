@@ -1,5 +1,4 @@
-﻿using CarGameScripts.Items;
-using CarGameScripts.Items.Interface;
+﻿using CarGameScripts.ContentDataSource.Items.Interface;
 
 namespace CarGameScripts.ContentDataSource.Items
 {

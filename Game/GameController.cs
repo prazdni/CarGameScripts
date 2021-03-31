@@ -1,4 +1,6 @@
-﻿using CarGameScripts.ContentDataSource;
+﻿using System.Linq;
+using CarGameScripts.ContentDataSource;
+using CarGameScripts.ContentDataSource.Items;
 using CarGameScripts.Feature.AbilitiesFeature;
 using CarGameScripts.Feature.AbilitiesFeature.Interface;
 using CarGameScripts.Feature.InventoryFeature;
@@ -31,15 +33,25 @@ namespace Game
         {
             var abilityItemsConfigCollection 
                 = ContentDataSourceLoader.LoadAbilityItemConfigs(new ResourcePath {PathResource = "DataSource/Ability/AbilityItemConfigDataSource"});
+            
             var abilityRepository 
                 = new AbilityRepository(abilityItemsConfigCollection);
+            
             var abilityCollectionViewPath 
                 = new ResourcePath {PathResource = $"Prefabs/{nameof(AbilityCollectionView)}"};
             var abilityCollectionView = 
                 ResourceLoader.LoadAndInstantiateObject<AbilityCollectionView>(abilityCollectionViewPath, placeForUi, false);
             AddGameObjects(abilityCollectionView.gameObject);
             
+            var abilityItemsRepository 
+                = new ItemsRepository(abilityItemsConfigCollection.Select(value => value.ItemConfig).ToList());
+            
             var inventoryModel = new InventoryModel();
+            foreach (var item in abilityItemsRepository.Collection.Values)
+            {
+                inventoryModel.EquipItem(item);
+            }
+            
             var abilitiesController = new AbilitiesController(abilityRepository, inventoryModel, abilityCollectionView, 
                 abilityActivator);
             AddController(abilitiesController);

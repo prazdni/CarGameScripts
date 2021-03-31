@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CarGameScripts.ContentDataSource.Items.Interface;
 using CarGameScripts.Feature.InventoryFeature.Interface;
-using CarGameScripts.Items.Interface;
 using JetBrains.Annotations;
 
 namespace CarGameScripts.Feature.InventoryFeature

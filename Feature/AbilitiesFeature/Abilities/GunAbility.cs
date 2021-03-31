@@ -1,4 +1,4 @@
-﻿using CarGameScripts.Configs;
+﻿using CarGameScripts.ContentDataSource.Ability;
 using CarGameScripts.Feature.AbilitiesFeature.Interface;
 using JetBrains.Annotations;
 using UnityEngine;

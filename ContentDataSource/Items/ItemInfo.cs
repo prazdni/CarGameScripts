@@ -1,4 +1,4 @@
-﻿namespace CarGameScripts.Items
+﻿namespace CarGameScripts.ContentDataSource.Items
 {
     public struct ItemInfo
     {

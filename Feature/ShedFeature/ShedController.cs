@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CarGameScripts.Configs;
+using CarGameScripts.ContentDataSource.Items.Interface;
 using CarGameScripts.Feature;
 using CarGameScripts.Feature.InventoryFeature;
 using CarGameScripts.Feature.InventoryFeature.Interface;
 using CarGameScripts.Feature.ShedFeature.Interface;
-using CarGameScripts.Items;
-using CarGameScripts.Items.Interface;
 using JetBrains.Annotations;
 using Profile;
 using UnityEngine;

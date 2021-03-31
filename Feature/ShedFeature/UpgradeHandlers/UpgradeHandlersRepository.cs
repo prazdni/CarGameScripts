@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using CarGameScripts.Configs;
+using CarGameScripts.ContentDataSource.Upgrade;
 using CarGameScripts.Feature.ShedFeature.Interface;
 
 namespace CarGameScripts.Feature.ShedFeature.UpgradeHandlers

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CarGameScripts.Configs;
+using CarGameScripts.ContentDataSource.Ability;
+using CarGameScripts.ContentDataSource.Upgrade;
 using Tools;
 
 namespace CarGameScripts.ContentDataSource

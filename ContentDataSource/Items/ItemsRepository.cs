@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using CarGameScripts.Configs;
-using CarGameScripts.ContentDataSource.Items;
+using CarGameScripts.ContentDataSource.Items.Interface;
 using CarGameScripts.Feature;
-using CarGameScripts.Items.Interface;
 
-namespace CarGameScripts.Items
+namespace CarGameScripts.ContentDataSource.Items
 {
     public class ItemsRepository : BaseController, IRepository<int, IItem>
     {

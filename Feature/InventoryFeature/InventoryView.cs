@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using CarGameScripts.ContentDataSource.Items.Interface;
 using CarGameScripts.Feature.InventoryFeature.Interface;
-using CarGameScripts.Items.Interface;
 using UnityEngine;
 
 namespace CarGameScripts.Feature.InventoryFeature

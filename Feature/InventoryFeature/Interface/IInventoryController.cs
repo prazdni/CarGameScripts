@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CarGameScripts.Items.Interface;
+using CarGameScripts.ContentDataSource.Items.Interface;
 
 namespace CarGameScripts.Feature.InventoryFeature.Interface
 {

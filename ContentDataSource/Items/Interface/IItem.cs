@@ -1,4 +1,4 @@
-﻿namespace CarGameScripts.Items.Interface
+﻿namespace CarGameScripts.ContentDataSource.Items.Interface
 {
     public interface IItem
     {

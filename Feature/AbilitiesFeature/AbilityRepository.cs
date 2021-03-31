@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CarGameScripts.Configs;
+using CarGameScripts.ContentDataSource.Ability;
 using CarGameScripts.Feature.AbilitiesFeature.Abilities;
 using CarGameScripts.Feature.AbilitiesFeature.Interface;
 
