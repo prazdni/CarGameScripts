@@ -12,7 +12,7 @@ namespace Game.InputLogic
         public InputGameController(SubscriptionProperty<float> leftMove, SubscriptionProperty<float> rightMove, Car car)
         {
             _view = LoadView();
-            _view.Init(leftMove, rightMove, car.Speed);
+            _view.Init(leftMove, rightMove, car.Speed.Value);
         }
 
         private BaseInputView LoadView()

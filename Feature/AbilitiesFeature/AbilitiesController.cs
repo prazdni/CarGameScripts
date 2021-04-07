@@ -9,9 +9,9 @@ namespace CarGameScripts.Feature.AbilitiesFeature
 {
     public class AbilitiesController : BaseController, IAbilitiesController
     {
+        [NotNull] private readonly IRepository<int, IAbility> _abilityRepository;
         [NotNull] private readonly IAbilityActivator _abilityActivator;
         [NotNull] private readonly IInventoryModel _inventoryModel;
-        [NotNull] private readonly IRepository<int, IAbility> _abilityRepository;
         [NotNull] private readonly IAbilityCollectionView _abilityCollectionView;
 
         public AbilitiesController(

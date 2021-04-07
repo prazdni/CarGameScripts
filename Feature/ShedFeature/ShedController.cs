@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using CarGameScripts.ContentDataSource.Items.Interface;
 using CarGameScripts.Feature;
-using CarGameScripts.Feature.InventoryFeature;
 using CarGameScripts.Feature.InventoryFeature.Interface;
 using CarGameScripts.Feature.ShedFeature.Interface;
 using JetBrains.Annotations;
-using Profile;
 using UnityEngine;
 
 namespace CarGameScripts.Shed
@@ -32,12 +29,13 @@ namespace CarGameScripts.Shed
 
         public void Enter()
         {
-            _inventoryController.ShowInventory(Exit);
+            _inventoryController.ShowInventory();
             Debug.Log($"Enter: car has speed : {_upgradable.Speed}");
         }
 
         public void Exit()
         {
+            _inventoryController.HideInventory();
             UpgradeCarWithEquippedItems(_upgradable, _inventoryController.GetEquippedItems(), 
                 _upgradeHandlersRepository.Collection);
         }

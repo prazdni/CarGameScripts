@@ -1,4 +1,5 @@
-﻿using Game;
+﻿using CarGameScripts.Garage;
+using Game;
 using Game.Trail;
 using Profile;
 using Ui;
@@ -8,6 +9,7 @@ internal sealed class MainController : BaseController
 {
     private MainMenuController _mainMenuController;
     private GameController _gameController;
+    private GarageController _garageController;
     private readonly Transform _placeForUi;
     private readonly ProfilePlayer _profilePlayer;
     
@@ -26,11 +28,17 @@ internal sealed class MainController : BaseController
             case GameState.Start:
                 _mainMenuController = new MainMenuController(_placeForUi, _profilePlayer);
                 _gameController?.Dispose();
+                _garageController?.Dispose();
+                break;
+            case GameState.Garage:
+                _garageController = new GarageController(_placeForUi, _profilePlayer);
+                _mainMenuController?.Dispose();
                 break;
             case GameState.Game:
                 _gameController = new GameController(_placeForUi, _profilePlayer);
                 _mainMenuController?.Dispose();
                 break;
+            
             default:
                 _mainMenuController?.Dispose();
                 _gameController?.Dispose();

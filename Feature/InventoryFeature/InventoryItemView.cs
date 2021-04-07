@@ -26,6 +26,11 @@ namespace CarGameScripts.Feature.InventoryFeature
             _item = CreateItem(_itemConfig);
         }
 
+        private void OnDestroy()
+        {
+            _itemToggle.onValueChanged.RemoveListener(OnValueChanged);
+        }
+
         private void OnValueChanged(bool isActive)
         {
             if (isActive)
