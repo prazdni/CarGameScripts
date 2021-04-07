@@ -2,6 +2,7 @@
 using CarGameScripts.ContentDataSource;
 using CarGameScripts.ContentDataSource.Items;
 using CarGameScripts.Feature.InventoryFeature;
+using CarGameScripts.Feature.InventoryFeature.Interface;
 using CarGameScripts.Feature.ShedFeature.Interface;
 using CarGameScripts.Feature.ShedFeature.UpgradeHandlers;
 using CarGameScripts.Shed;
@@ -20,12 +21,12 @@ namespace CarGameScripts.Garage
 
         private GarageView _view;
 
-        public GarageController(Transform placeForUi, ProfilePlayer profilePlayer)
+        public GarageController(Transform placeForUi, ProfilePlayer profilePlayer, IInventoryModel inventoryModel)
         {
             _profilePlayer = profilePlayer;
             _view = LoadView(placeForUi);
             _view.Init(OnStateChanged);
-            _shedController = ConfigureShedController(placeForUi, profilePlayer);
+            _shedController = ConfigureShedController(placeForUi, profilePlayer, inventoryModel);
         }
         
         private GarageView LoadView(Transform placeForUi)
@@ -42,9 +43,8 @@ namespace CarGameScripts.Garage
             _profilePlayer.AnalyticTools.SendMessage(state.ToString());
         }
         
-        private ShedController ConfigureShedController(
-            Transform placeForUi,
-            ProfilePlayer profilePlayer)
+        private ShedController ConfigureShedController(Transform placeForUi, 
+            ProfilePlayer profilePlayer, IInventoryModel inventoryModel)
         {
             var upgradeItemsConfigCollection 
                 = ContentDataSourceLoader
@@ -55,12 +55,10 @@ namespace CarGameScripts.Garage
             var itemsRepository 
                 = new ItemsRepository(upgradeItemsConfigCollection
                     .Select(value => value.ItemConfig).ToList());
-            var inventoryModel
-                = new InventoryModel();
-            //var inventoryViewPath
-            //    = new ResourcePath {PathResource = $"Prefabs/{nameof(InventoryView)}"};
-            //var inventoryView = ResourceLoader.LoadAndInstantiateObject<InventoryView>(inventoryViewPath, placeForUi, false);
             
+            //var inventoryModel
+            //    = new InventoryModel();
+
             var inventoryView = _view.InventoryView;
             AddGameObjects(inventoryView.gameObject);
             var inventoryController 

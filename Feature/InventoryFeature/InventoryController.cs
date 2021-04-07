@@ -52,7 +52,7 @@ namespace CarGameScripts.Feature.InventoryFeature
         public void ShowInventory()
         {
             _inventoryView.Show();
-            _inventoryView.Display(_repository.Collection.Values.ToList());
+            _inventoryView.Display(_inventoryModel.GetEquippedItems());
         }
 
         public void HideInventory()

@@ -12,7 +12,7 @@ namespace CarGameScripts.Feature.InventoryFeature
         public event EventHandler<IItem> Selected;
         public event EventHandler<IItem> Deselected;
 
-        private List<IItem> _itemInfoCollection;
+        private IReadOnlyList<IItem> _itemInfoCollection;
 
         public void Init()
         {
@@ -22,19 +22,13 @@ namespace CarGameScripts.Feature.InventoryFeature
             }
         }
 
-        public void Display(List<IItem> items)
+        public void Display(IReadOnlyList<IItem> items)
         {
             _itemInfoCollection = items;
-        }
-
-        protected virtual void OnSelected(IItem e)
-        {
-            Selected?.Invoke(this, e);
-        }
-        
-        protected virtual void OnDeselected(IItem e)
-        {
-            Deselected?.Invoke(this, e);
+            foreach (var inventoryItemView in _inventoryItemViews)
+            {
+                inventoryItemView.Display(items);
+            }
         }
 
         public void Show()

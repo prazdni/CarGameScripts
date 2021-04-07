@@ -25,12 +25,13 @@ namespace CarGameScripts.Shed
                                    throw new ArgumentNullException(nameof(inventoryController));
 
             _upgradable = upgradable ?? throw new ArgumentNullException(nameof(upgradable));
+
+            Enter();
         }
 
         public void Enter()
         {
             _inventoryController.ShowInventory();
-            Debug.Log($"Enter: car has speed : {_upgradable.Speed}");
         }
 
         public void Exit()
@@ -43,6 +44,8 @@ namespace CarGameScripts.Shed
         private void UpgradeCarWithEquippedItems(IUpgradable upgradable, IReadOnlyList<IItem> equippedItems, 
             IReadOnlyDictionary<int, IUpgradeHandler> upgradeHandlers)
         {
+            upgradable.Restore();
+            
             foreach (var equippedItem in equippedItems)
             {
                 if (upgradeHandlers.TryGetValue(equippedItem.ID, out var handler))
