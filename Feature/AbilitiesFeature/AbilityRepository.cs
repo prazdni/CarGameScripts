@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using CarGameScripts.ContentDataSource.Ability;
 using CarGameScripts.Feature.AbilitiesFeature.Abilities;
 using CarGameScripts.Feature.AbilitiesFeature.Interface;
+using Tools;
+using Object = UnityEngine.Object;
 
 namespace CarGameScripts.Feature.AbilitiesFeature
 {
     public class AbilityRepository : IRepository<int, IAbility>
     {
+        private SubscriptionAction _onRepositoryDispose;
         public IReadOnlyDictionary<int, IAbility> Collection => _abilityMapById;
         private readonly Dictionary<int, IAbility> _abilityMapById = new Dictionary<int, IAbility>();
 
         public AbilityRepository(List<AbilityItemConfig> itemConfigs)
         {
+            _onRepositoryDispose = new SubscriptionAction();
             PopulateItems(ref _abilityMapById, itemConfigs);
         }
 
@@ -35,12 +39,19 @@ namespace CarGameScripts.Feature.AbilitiesFeature
             switch (config.Type)
             {
                 case AbilityType.Gun:
-                    return new GunController(config);
+                    return new GunController(InstantiateAbilityConfiguration(config));
                 case AbilityType.Jump:
-                    return new JumpAbility(config);
+                    return new JumpAbility(InstantiateAbilityConfiguration(config));
                 default:
                     return StubAbility.Default;
             }
         }
+        
+        private AbilityConfiguration InstantiateAbilityConfiguration(AbilityItemConfig abilityItemConfig)
+        {
+            return new AbilityConfiguration(abilityItemConfig.ID, Object.Instantiate(abilityItemConfig.View),
+                abilityItemConfig.Type, abilityItemConfig.Value);
+        }
+
     }
 }

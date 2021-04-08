@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using CarGameScripts.ContentDataSource.Items.Interface;
 using CarGameScripts.Feature.AbilitiesFeature.Interface;
 using CarGameScripts.Feature.InventoryFeature.Interface;
@@ -37,6 +38,12 @@ namespace CarGameScripts.Feature.AbilitiesFeature
         private void CleanupView(IAbilityCollectionView view)
         {
             view.UseRequested -= OnAbilityUseRequested;
+        }
+
+        protected override void OnDispose()
+        {
+            base.OnDispose();
+            _abilityRepository.Collection.Values.ToList().ForEach(v => v.Dispose());
         }
 
         private void OnAbilityUseRequested(object sender, IItem e)

@@ -7,9 +7,9 @@ namespace CarGameScripts.Feature.AbilitiesFeature.Abilities
 {
     public class JumpAbility : IAbility
     {
-        private readonly AbilityItemConfig _config;
+        private readonly AbilityConfiguration _config;
 
-        public JumpAbility([NotNull] AbilityItemConfig config)
+        public JumpAbility(AbilityConfiguration config)
         {
             _config = config;
         }
@@ -19,6 +19,10 @@ namespace CarGameScripts.Feature.AbilitiesFeature.Abilities
             var activatorGO = activator.GetViewObject();
             var activatorGORigid2D = activatorGO.GetComponent<Rigidbody2D>();
             activatorGORigid2D.AddForce(activatorGO.transform.up * _config.Value, ForceMode2D.Impulse);
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

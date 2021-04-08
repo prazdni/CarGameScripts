@@ -1,18 +1,17 @@
-﻿using System;
-using CarGameScripts.ContentDataSource.Ability;
+﻿using CarGameScripts.ContentDataSource.Ability;
 using CarGameScripts.Feature.AbilitiesFeature.Interface;
 using Tools;
 using UnityEngine;
 
 namespace CarGameScripts.Feature.AbilitiesFeature
 {
-    public class GunController : BaseController, IAbility
+    public class GunController : IAbility
     {
         private IGenericReadonlySubscriptionAction<GunAbilityView> _returnObjectToPull;
-        private readonly AbilityItemConfig _abilityItemConfig;
+        private readonly AbilityConfiguration _abilityItemConfig;
         private IPullable<GunAbilityView> _gunPull;
         
-        public GunController(AbilityItemConfig abilityItemConfig)
+        public GunController(AbilityConfiguration abilityItemConfig)
         {
             _returnObjectToPull = new GenericSubscriptionAction<GunAbilityView>();
             _returnObjectToPull.SubscribeOnChange(OnReturnObjectToPull);
@@ -21,10 +20,10 @@ namespace CarGameScripts.Feature.AbilitiesFeature
             _gunPull = new ProjectilePull(abilityItemConfig, _returnObjectToPull);
         }
 
-        protected override void OnDispose()
+        public void Dispose()
         {
-            base.OnDispose();
             _returnObjectToPull.UnSubscriptionOnChange(OnReturnObjectToPull);
+            _gunPull.Dispose();
         }
 
         private void OnReturnObjectToPull(GunAbilityView gunAbilityView)

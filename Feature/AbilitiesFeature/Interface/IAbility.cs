@@ -1,6 +1,8 @@
-﻿namespace CarGameScripts.Feature.AbilitiesFeature.Interface
+﻿using System;
+
+namespace CarGameScripts.Feature.AbilitiesFeature.Interface
 {
-    public interface IAbility
+    public interface IAbility : IDisposable
     {
         void Apply(IAbilityActivator activator);
     }

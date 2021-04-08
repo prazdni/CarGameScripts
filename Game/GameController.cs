@@ -64,6 +64,11 @@ namespace Game
             
             return abilitiesController;
         }
+
+        protected override void OnDispose()
+        {
+            base.OnDispose();
+        }
     }
 }
 

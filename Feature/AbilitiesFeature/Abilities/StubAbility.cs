@@ -10,5 +10,10 @@ namespace CarGameScripts.Feature.AbilitiesFeature.Abilities
         {
             
         }
+
+        public void Dispose()
+        {
+            
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CarGameScripts.ContentDataSource.Ability;
+﻿using System;
+using CarGameScripts.ContentDataSource.Ability;
 using CarGameScripts.Feature.AbilitiesFeature.Interface;
 using Tools;
 using Object = UnityEngine.Object;
@@ -9,10 +10,10 @@ namespace CarGameScripts.Feature.AbilitiesFeature
     {
         private GunAbilityView _pullObject;
 
-        public ProjectilePull(AbilityItemConfig itemConfig, 
+        public ProjectilePull(AbilityConfiguration itemConfig, 
             IGenericReadonlySubscriptionAction<GunAbilityView> returnObjectToPull)
         {
-            _pullObject = Object.Instantiate(itemConfig.View).GetComponent<GunAbilityView>();
+            _pullObject = itemConfig.View.GetComponent<GunAbilityView>();
             _pullObject.Init(returnObjectToPull);
             _pullObject.gameObject.SetActive(false);
         }
@@ -32,6 +33,11 @@ namespace CarGameScripts.Feature.AbilitiesFeature
         public void Return(GunAbilityView objectToReturn)
         {
             objectToReturn.gameObject.SetActive(false);
+        }
+
+        public void Dispose()
+        {
+            Object.Destroy(_pullObject);
         }
     }
 }
