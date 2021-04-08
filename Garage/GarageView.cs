@@ -14,9 +14,9 @@ namespace CarGameScripts.Garage
         [SerializeField] private InventoryView _inventoryView;
         [SerializeField] private StartStateButton _startStateButton;
 
-        public void Init(Action<GameState> obj)
+        public void Init(Action<GameState> initObject)
         {
-            _startStateButton.AddListener(obj);
+            _startStateButton.AddListener(initObject);
         }
     }
 }

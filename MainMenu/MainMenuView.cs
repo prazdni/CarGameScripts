@@ -11,10 +11,10 @@ namespace Ui
         [SerializeField] private StartStateButton _startStateButton;
         [SerializeField] private ShedStateButton _shedStateButton;
 
-        public void Init(Action<GameState> stateChanger)
+        public void Init(Action<GameState> initObject)
         {
-            _startStateButton.AddListener(stateChanger);
-            _shedStateButton.AddListener(stateChanger);
+            _startStateButton.AddListener(initObject);
+            _shedStateButton.AddListener(initObject);
         }
     }
 }
