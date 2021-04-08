@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace CarGameScripts.Feature.AbilitiesFeature.Abilities
 {
-    public class JumpAbility : IAbility
+    public class JumpController : IAbility
     {
         private readonly AbilityConfiguration _config;
 
-        public JumpAbility(AbilityConfiguration config)
+        public JumpController(AbilityConfiguration config)
         {
             _config = config;
         }
@@ -23,6 +23,7 @@ namespace CarGameScripts.Feature.AbilitiesFeature.Abilities
 
         public void Dispose()
         {
+            Object.Destroy(_config.View);
         }
     }
 }

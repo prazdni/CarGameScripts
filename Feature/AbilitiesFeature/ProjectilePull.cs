@@ -2,6 +2,7 @@
 using CarGameScripts.ContentDataSource.Ability;
 using CarGameScripts.Feature.AbilitiesFeature.Interface;
 using Tools;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace CarGameScripts.Feature.AbilitiesFeature
@@ -37,7 +38,7 @@ namespace CarGameScripts.Feature.AbilitiesFeature
 
         public void Dispose()
         {
-            Object.Destroy(_pullObject);
+            Object.Destroy(_pullObject.gameObject);
         }
     }
 }

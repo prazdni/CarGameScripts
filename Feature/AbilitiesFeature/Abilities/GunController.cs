@@ -1,9 +1,8 @@
-﻿using CarGameScripts.ContentDataSource.Ability;
-using CarGameScripts.Feature.AbilitiesFeature.Interface;
+﻿using CarGameScripts.Feature.AbilitiesFeature.Interface;
 using Tools;
 using UnityEngine;
 
-namespace CarGameScripts.Feature.AbilitiesFeature
+namespace CarGameScripts.Feature.AbilitiesFeature.Abilities
 {
     public class GunController : IAbility
     {

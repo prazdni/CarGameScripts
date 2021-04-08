@@ -41,7 +41,7 @@ namespace CarGameScripts.Feature.AbilitiesFeature
                 case AbilityType.Gun:
                     return new GunController(InstantiateAbilityConfiguration(config));
                 case AbilityType.Jump:
-                    return new JumpAbility(InstantiateAbilityConfiguration(config));
+                    return new JumpController(InstantiateAbilityConfiguration(config));
                 default:
                     return StubAbility.Default;
             }
