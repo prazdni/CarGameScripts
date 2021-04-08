@@ -1,7 +1,8 @@
-﻿using CarGameScripts.Feature.AbilitiesFeature;
+﻿using CarGameScripts.ContentDataSource.Items;
+using CarGameScripts.Feature.AbilitiesFeature;
 using UnityEngine;
 
-namespace CarGameScripts.Configs
+namespace CarGameScripts.ContentDataSource.Ability
 {
     [CreateAssetMenu(fileName = "AbilityItem", menuName = "Car/AbilityItem", order = 0)]
     public class AbilityItemConfig : ScriptableObject

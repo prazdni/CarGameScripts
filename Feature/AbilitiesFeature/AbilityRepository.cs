@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CarGameScripts.Configs;
+using CarGameScripts.ContentDataSource.Ability;
 using CarGameScripts.Feature.AbilitiesFeature.Abilities;
 using CarGameScripts.Feature.AbilitiesFeature.Interface;
 
@@ -35,7 +35,7 @@ namespace CarGameScripts.Feature.AbilitiesFeature
             switch (config.Type)
             {
                 case AbilityType.Gun:
-                    return new GunAbility(config);
+                    return new GunController(config);
                 case AbilityType.Jump:
                     return new JumpAbility(config);
                 default:

@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
+using CarGameScripts.ContentDataSource.Items.Interface;
 using CarGameScripts.Feature.InventoryFeature.Interface;
-using CarGameScripts.Items.Interface;
 
 namespace CarGameScripts.Feature.InventoryFeature
 {
     public class InventoryModel : IInventoryModel
     {
-        private static readonly List<IItem> _stubCollection = new List<IItem>();
+        private readonly IReadOnlyList<IItem> _stubCollection = new List<IItem>();
         private readonly List<IItem> _equippedItems = new List<IItem>();
         
         public IReadOnlyList<IItem> GetEquippedItems()

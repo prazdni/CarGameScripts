@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CarGameScripts.ContentDataSource.Items.Interface;
 using CarGameScripts.Feature.InventoryFeature.Interface;
-using CarGameScripts.Items.Interface;
 using JetBrains.Annotations;
+using UnityEngine;
 
 namespace CarGameScripts.Feature.InventoryFeature
 {
     public class InventoryController : BaseController, IInventoryController
     {
-        [NotNull] private readonly IInventoryModel _inventoryModel;
         [NotNull] private readonly IRepository<int, IItem> _repository;
+        [NotNull] private readonly IInventoryModel _inventoryModel;
         [NotNull] private readonly IInventoryView _inventoryView;
-
-        private Action _hideAction;
-
+        
         public InventoryController([NotNull] IRepository<int, IItem> repository, [NotNull] IInventoryModel inventoryModel,
             [NotNull] IInventoryView inventoryView)
         {
             _inventoryModel = inventoryModel ?? throw new ArgumentNullException(nameof(inventoryModel));
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _inventoryView = inventoryView ?? throw new ArgumentNullException(nameof(inventoryView));
+
+            SetupView(_inventoryView);
         }
         
         protected override void OnDispose()
@@ -33,6 +34,8 @@ namespace CarGameScripts.Feature.InventoryFeature
         {
             inventoryView.Selected += OnItemSelected;
             inventoryView.Deselected += OnItemDeselected;
+            
+            inventoryView.Init();
         }
         
         private void CleanupView()
@@ -46,26 +49,26 @@ namespace CarGameScripts.Feature.InventoryFeature
             return _inventoryModel.GetEquippedItems();
         }
 
-        public void ShowInventory(Action hideAction)
+        public void ShowInventory()
         {
-            _hideAction = hideAction;
             _inventoryView.Show();
-            _inventoryView.Display(_repository.Collection.Values.ToList());
+            _inventoryView.Display(_inventoryModel.GetEquippedItems());
         }
 
         public void HideInventory()
         {
             _inventoryView.Hide();
-            _hideAction?.Invoke();
         }
         
         private void OnItemSelected(object sender, IItem item)
         {
+            Debug.Log("Equipped");
             _inventoryModel.EquipItem(item);
         }
         
         private void OnItemDeselected(object sender, IItem item)
         {
+            Debug.Log("Unequipped");
             _inventoryModel.UnequipItem(item);
         }
     }

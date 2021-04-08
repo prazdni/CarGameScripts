@@ -1,16 +1,17 @@
 ﻿using System;
+using CarGameScripts.ContentDataSource.Items.Interface;
 using CarGameScripts.Feature.AbilitiesFeature.Interface;
 using CarGameScripts.Feature.InventoryFeature.Interface;
-using CarGameScripts.Items.Interface;
 using JetBrains.Annotations;
+using UnityEngine;
 
 namespace CarGameScripts.Feature.AbilitiesFeature
 {
     public class AbilitiesController : BaseController, IAbilitiesController
     {
+        [NotNull] private readonly IRepository<int, IAbility> _abilityRepository;
         [NotNull] private readonly IAbilityActivator _abilityActivator;
         [NotNull] private readonly IInventoryModel _inventoryModel;
-        [NotNull] private readonly IRepository<int, IAbility> _abilityRepository;
         [NotNull] private readonly IAbilityCollectionView _abilityCollectionView;
 
         public AbilitiesController(
@@ -30,6 +31,7 @@ namespace CarGameScripts.Feature.AbilitiesFeature
         private void SetupView(IAbilityCollectionView view)
         {
             view.UseRequested += OnAbilityUseRequested;
+            view.Init();
         }
         
         private void CleanupView(IAbilityCollectionView view)

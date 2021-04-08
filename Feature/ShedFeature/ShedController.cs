@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using CarGameScripts.Configs;
+using CarGameScripts.ContentDataSource.Items.Interface;
 using CarGameScripts.Feature;
-using CarGameScripts.Feature.InventoryFeature;
 using CarGameScripts.Feature.InventoryFeature.Interface;
 using CarGameScripts.Feature.ShedFeature.Interface;
-using CarGameScripts.Items;
-using CarGameScripts.Items.Interface;
 using JetBrains.Annotations;
-using Profile;
 using UnityEngine;
 
 namespace CarGameScripts.Shed
@@ -30,16 +25,18 @@ namespace CarGameScripts.Shed
                                    throw new ArgumentNullException(nameof(inventoryController));
 
             _upgradable = upgradable ?? throw new ArgumentNullException(nameof(upgradable));
+
+            Enter();
         }
 
         public void Enter()
         {
-            _inventoryController.ShowInventory(Exit);
-            Debug.Log($"Enter: car has speed : {_upgradable.Speed}");
+            _inventoryController.ShowInventory();
         }
 
         public void Exit()
         {
+            _inventoryController.HideInventory();
             UpgradeCarWithEquippedItems(_upgradable, _inventoryController.GetEquippedItems(), 
                 _upgradeHandlersRepository.Collection);
         }
@@ -47,6 +44,8 @@ namespace CarGameScripts.Shed
         private void UpgradeCarWithEquippedItems(IUpgradable upgradable, IReadOnlyList<IItem> equippedItems, 
             IReadOnlyDictionary<int, IUpgradeHandler> upgradeHandlers)
         {
+            upgradable.Restore();
+            
             foreach (var equippedItem in equippedItems)
             {
                 if (upgradeHandlers.TryGetValue(equippedItem.ID, out var handler))

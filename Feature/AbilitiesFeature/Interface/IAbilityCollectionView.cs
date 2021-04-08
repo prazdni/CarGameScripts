@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CarGameScripts.Items.Interface;
+using CarGameScripts.ContentDataSource.Items.Interface;
 using Tools;
 
 namespace CarGameScripts.Feature.AbilitiesFeature.Interface
@@ -9,5 +9,6 @@ namespace CarGameScripts.Feature.AbilitiesFeature.Interface
     {
         event EventHandler<IItem> UseRequested;
         void Display(IReadOnlyList<IItem> abilityItems);
+        void Init();
     }
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CarGameScripts.Configs
+namespace CarGameScripts.ContentDataSource.Ability
 {
     [CreateAssetMenu(fileName = "AbilityItemConfigDataSource", menuName = "Car/AbilityItemConfigDataSource", order = 0)]
     public class AbilityItemConfigDataSource : ScriptableObject

@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using CarGameScripts.ContentDataSource.Items;
+using UnityEngine;
 
-namespace CarGameScripts.Configs
+namespace CarGameScripts.ContentDataSource.Upgrade
 {
     [CreateAssetMenu(fileName = "UpgradeItem", menuName = "Car/UpgradeItem", order = 0)]
     public class UpgradeItemConfig : ScriptableObject

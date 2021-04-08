@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CarGameScripts.Items.Interface;
+using CarGameScripts.ContentDataSource.Items.Interface;
 using Tools;
 
 namespace CarGameScripts.Feature.InventoryFeature.Interface
@@ -9,6 +9,7 @@ namespace CarGameScripts.Feature.InventoryFeature.Interface
     {
         event EventHandler<IItem> Selected;
         event EventHandler<IItem> Deselected;
-        void Display(List<IItem> items);
+        void Display(IReadOnlyList<IItem> items);
+        void Init();
     }
 }
