@@ -38,7 +38,10 @@ namespace CarGameScripts.Feature.AbilitiesFeature
 
         public void Dispose()
         {
-            Object.Destroy(_pullObject.gameObject);
+            if (_pullObject != null)
+            {
+                Object.Destroy(_pullObject.gameObject);
+            }
         }
     }
 }
