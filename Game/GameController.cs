@@ -4,10 +4,9 @@ using CarGameScripts.ContentDataSource.Items;
 using CarGameScripts.Feature.AbilitiesFeature;
 using CarGameScripts.Feature.AbilitiesFeature.Interface;
 using CarGameScripts.Feature.InventoryFeature;
-using CarGameScripts.Feature.InventoryFeature.Interface;
+using CarGameScripts.UI;
 using Game.InputLogic;
 using Game.TapeBackground;
-using Game.Trail;
 using Profile;
 using Tools;
 using UnityEngine;
@@ -16,8 +15,11 @@ namespace Game
 {
     internal sealed class GameController : BaseController
     {
+        private readonly ProfilePlayer _profilePlayer;
+
         public GameController(Transform placeForUi, ProfilePlayer profilePlayer)
         {
+            _profilePlayer = profilePlayer;
             SubscriptionProperty<float> leftMoveDiff = new SubscriptionProperty<float>();
             SubscriptionProperty<float> rightMoveDiff = new SubscriptionProperty<float>();
             TapeBackgroundController tapeBackgroundController = new TapeBackgroundController(leftMoveDiff, rightMoveDiff);
@@ -28,31 +30,12 @@ namespace Game
             AddController(carController);
             
             var abilityController = ConfigureAbilityController(placeForUi, carController);
-            var inventoryController = ConfigureInventoryController(placeForUi);
+            AddController(abilityController);
+            var uiController = new UIController(placeForUi, profilePlayer);
+            AddController(uiController);
         }
 
-        private IInventoryController ConfigureInventoryController(Transform placeForUi)
-        {
-            var upgradeItemsConfigCollection 
-                = ContentDataSourceLoader.LoadUpgradeItemConfigs(new ResourcePath {PathResource = "DataSource/Upgrade/UpgradeItemConfigDataSource"});
-            
-            var itemsRepository 
-                = new ItemsRepository(upgradeItemsConfigCollection.Select(value => value.ItemConfig).ToList());
-            var inventoryModel
-                = new InventoryModel();
-            var inventoryViewPath
-                = new ResourcePath {PathResource = $"Prefabs/{nameof(InventoryView)}"};
-            var inventoryView 
-                = ResourceLoader.LoadAndInstantiateObject<InventoryView>(inventoryViewPath, placeForUi, false);
-            AddGameObjects(inventoryView.gameObject);
-            var inventoryController 
-                = new InventoryController(itemsRepository, inventoryModel, inventoryView);
-            AddController(inventoryController);
-
-            return inventoryController;
-        }
-        
-        private IAbilitiesController ConfigureAbilityController(Transform placeForUi, IAbilityActivator abilityActivator)
+        private BaseController ConfigureAbilityController(Transform placeForUi, IAbilityActivator abilityActivator)
         {
             var abilityItemsConfigCollection 
                 = ContentDataSourceLoader.LoadAbilityItemConfigs(new ResourcePath {PathResource = "DataSource/Ability/AbilityItemConfigDataSource"});
@@ -80,6 +63,11 @@ namespace Game
             AddController(abilitiesController);
             
             return abilitiesController;
+        }
+
+        protected override void OnDispose()
+        {
+            base.OnDispose();
         }
     }
 }

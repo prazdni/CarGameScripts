@@ -10,12 +10,10 @@ namespace CarGameScripts.Feature.InventoryFeature
 {
     public class InventoryController : BaseController, IInventoryController
     {
-        [NotNull] private readonly IInventoryModel _inventoryModel;
         [NotNull] private readonly IRepository<int, IItem> _repository;
+        [NotNull] private readonly IInventoryModel _inventoryModel;
         [NotNull] private readonly IInventoryView _inventoryView;
-
-        private Action _hideAction;
-
+        
         public InventoryController([NotNull] IRepository<int, IItem> repository, [NotNull] IInventoryModel inventoryModel,
             [NotNull] IInventoryView inventoryView)
         {
@@ -51,17 +49,15 @@ namespace CarGameScripts.Feature.InventoryFeature
             return _inventoryModel.GetEquippedItems();
         }
 
-        public void ShowInventory(Action hideAction)
+        public void ShowInventory()
         {
-            _hideAction = hideAction;
             _inventoryView.Show();
-            _inventoryView.Display(_repository.Collection.Values.ToList());
+            _inventoryView.Display(_inventoryModel.GetEquippedItems());
         }
 
         public void HideInventory()
         {
             _inventoryView.Hide();
-            _hideAction?.Invoke();
         }
         
         private void OnItemSelected(object sender, IItem item)

@@ -6,7 +6,7 @@ namespace CarGameScripts.Feature.InventoryFeature
 {
     public class InventoryModel : IInventoryModel
     {
-        private readonly List<IItem> _stubCollection = new List<IItem>();
+        private readonly IReadOnlyList<IItem> _stubCollection = new List<IItem>();
         private readonly List<IItem> _equippedItems = new List<IItem>();
         
         public IReadOnlyList<IItem> GetEquippedItems()

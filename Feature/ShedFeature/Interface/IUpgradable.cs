@@ -1,8 +1,10 @@
-﻿namespace CarGameScripts.Feature.ShedFeature.Interface
+﻿using CarGameScripts.Feature.Upgradables;
+
+namespace CarGameScripts.Feature.ShedFeature.Interface
 {
     public interface IUpgradable
     {
-        float Speed { get; set; }
+        IUpgrade<float> Speed { get; }
         void Restore();
     }
 }

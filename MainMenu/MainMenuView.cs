@@ -1,22 +1,20 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
+﻿using System;
+using CarGameScripts.UI;
+using Profile;
+using Tools;
+using UnityEngine;
 
 namespace Ui
 {
-    public sealed class MainMenuView : MonoBehaviour
+    public sealed class MainMenuView : MonoBehaviour, IInitialize<Action<GameState>>
     {
-        [SerializeField] 
-        private Button _buttonStart;
-            
-        public void Init(UnityAction startGame)
-        {
-            _buttonStart.onClick.AddListener(startGame);
-        }
+        [SerializeField] private StartStateButton _startStateButton;
+        [SerializeField] private ShedStateButton _shedStateButton;
 
-        private void OnDestroy()
+        public void Init(Action<GameState> initObject)
         {
-            _buttonStart.onClick.RemoveAllListeners();
+            _startStateButton.AddListener(initObject);
+            _shedStateButton.AddListener(initObject);
         }
     }
 }

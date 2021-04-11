@@ -2,7 +2,7 @@
 
 namespace CarGameScripts.Analytic.Interface
 {
-    internal interface IAnalyticTools
+    public interface IAnalyticTools
     {
         void SendMessage(string alias, IDictionary<string, object> eventData = null);
     }

@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace Game.InputLogic
 {
-    internal sealed class EndlessMoveView : BaseInputView
+    internal sealed class EndlessMoveView : 
+        BaseInputView, IInitialize<SubscriptionProperty<float>, SubscriptionProperty<float>, float>
     {
         public override void Init(SubscriptionProperty<float> leftMove, SubscriptionProperty<float> rightMove, float speed)
         {
