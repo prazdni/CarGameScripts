@@ -32,42 +32,69 @@ namespace CarGameScripts.Reward
         public ContainerSlotRewardView ContainerSlotRewardView => _containerSlotRewardView;
         public Button GetRewardButton => _getRewardButton;
         public Button ResetButton => _resetButton;
+        
+        private readonly Dictionary<string, int> _currentSlotInActive = new Dictionary<string, int>();
+        private readonly Dictionary<string, DateTime?> _timeGetReward = new Dictionary<string, DateTime?>();
 
         public int CurrentSlotInActive
         {
-            get => PlayerPrefs.GetInt(CurrentSlotInActiveKey, 0);
-            set => PlayerPrefs.SetInt(CurrentSlotInActiveKey, value);
+            get => _currentSlotInActive[CurrentSlotInActiveKey];
+            set => _currentSlotInActive[CurrentSlotInActiveKey] = value;
         }
 
         public DateTime? TimeGetReward
         {
-            get
-            {
-                var data = PlayerPrefs.GetString(TimeGetRewardKey, null);
-                if (!string.IsNullOrEmpty(data))
-                {
-                    return DateTime.Parse(data);
-                }
+            get => _timeGetReward[TimeGetRewardKey];
+            set => _timeGetReward[TimeGetRewardKey] = value;
+        }
 
-                return null;
-            }
-            set
+        private void Awake()
+        {
+            SetCurrentSlot();
+            
+            SetCurrentTimeGetReward();
+        }
+
+        private void SetCurrentSlot()
+        {
+            _currentSlotInActive.Add(CurrentSlotInActiveKey, PlayerPrefs.GetInt(CurrentSlotInActiveKey, 0));
+        }
+
+        private void SetCurrentTimeGetReward()
+        {
+            var data = PlayerPrefs.GetString(TimeGetRewardKey, null);
+            DateTime? dateTime = null;
+            
+            if (!string.IsNullOrEmpty(data))
             {
-                if (value != null)
-                {
-                    PlayerPrefs.SetString(TimeGetRewardKey, value.ToString());
-                }
-                else
-                {
-                    PlayerPrefs.DeleteKey(TimeGetRewardKey);
-                }
+                dateTime = DateTime.Parse(data);
+                Debug.Log(dateTime.Value.Second);
             }
+            
+            _timeGetReward.Add(TimeGetRewardKey, dateTime);
         }
 
         private void OnDestroy()
         {
             _getRewardButton.onClick.RemoveAllListeners();
             _resetButton.onClick.RemoveAllListeners();
+        }
+
+        private void OnApplicationQuit()
+        {
+            if (_currentSlotInActive.TryGetValue(CurrentSlotInActiveKey, out var value))
+            {
+                PlayerPrefs.SetInt(CurrentSlotInActiveKey, value);
+            }
+            
+            if (_timeGetReward[TimeGetRewardKey] == null)
+            {
+                PlayerPrefs.DeleteKey(TimeGetRewardKey);
+            }
+            else
+            {
+                PlayerPrefs.SetString(TimeGetRewardKey, _timeGetReward[TimeGetRewardKey].ToString());
+            }
         }
     }
 }

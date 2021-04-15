@@ -120,10 +120,10 @@ namespace CarGameScripts.Reward
                 case RewardType.None:
                     break;
                 case RewardType.Wood:
-                    CurrencyView.Instance.AddWood(reward.CountCurrency);
+                    CurrencySingletonView.Instance.AddWood(reward.CountCurrency);
                     break;
                 case RewardType.Diamond:
-                    CurrencyView.Instance.AddDiamonds(reward.CountCurrency);
+                    CurrencySingletonView.Instance.AddDiamonds(reward.CountCurrency);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -139,6 +139,9 @@ namespace CarGameScripts.Reward
         private void ResetTimer()
         {
             PlayerPrefs.DeleteAll();
+            _dailyRewardView.CurrentSlotInActive = 0;
+            _dailyRewardView.TimeGetReward = null;
+            CurrencySingletonView.Instance.Reset();
         }
     }
 }
