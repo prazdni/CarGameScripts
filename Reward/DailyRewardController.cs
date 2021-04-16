@@ -1,27 +1,24 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using Amazon.Util;
+using Tools;
 using UnityEngine;
 
 namespace CarGameScripts.Reward
 {
-    public class DailyRewardController
+    public class DailyRewardController : BaseController, IInitialize<DailyRewardView>, IExecute
     {
         private DailyRewardView _dailyRewardView;
         private List<ContainerSlotRewardView> _slots;
 
         private bool _isGetReward;
+        private float _time;
 
-        public DailyRewardController(DailyRewardView generateLevelView)
+        public void Init(DailyRewardView initObject)
         {
-            _dailyRewardView = generateLevelView;
-        }
-
-        public void RefreshView()
-        {
+            _dailyRewardView = initObject;
+            
             InitSlots();
-
-            _dailyRewardView.StartCoroutine(RewardsStateUpdater());
 
             RefreshUI();
             SubscribeButtons();
@@ -40,31 +37,23 @@ namespace CarGameScripts.Reward
             }
         }
 
-        private IEnumerator RewardsStateUpdater()
-        {
-            while (true)
-            {
-                RefreshRewardsState();
-                yield return new WaitForSeconds(1);
-            }
-        }
-
         private void RefreshRewardsState()
         {
             _isGetReward = true;
 
             if (_dailyRewardView.TimeGetReward.HasValue)
             {
-                var timeSpan = DateTime.UtcNow - _dailyRewardView.TimeGetReward.Value;
-
-                if (timeSpan.Seconds > _dailyRewardView.TimeDeadline)
+                var timeSpan = DateTime.Parse(AWSSDKUtils.FormattedCurrentTimestampGMT).ToUnixTimestamp() 
+                               - _dailyRewardView.TimeGetReward.Value;
+                
+                if (timeSpan > _dailyRewardView.TimeDeadline)
                 {
                     _dailyRewardView.TimeGetReward = null;
                     _dailyRewardView.CurrentSlotInActive = 0;
                 }
                 else
                 {
-                    if (timeSpan.Seconds < _dailyRewardView.TimeCooldown)
+                    if (timeSpan < _dailyRewardView.TimeCooldown)
                     {
                         _isGetReward = false;
                     }
@@ -86,10 +75,12 @@ namespace CarGameScripts.Reward
             {
                 if (_dailyRewardView.TimeGetReward != null)
                 {
-                    var nextClaimTime = _dailyRewardView.TimeGetReward.Value.AddSeconds(_dailyRewardView.TimeCooldown);
-                    var currentClaimCooldown = nextClaimTime - DateTime.UtcNow;
+                    var nextClaimTime = _dailyRewardView.TimeGetReward.Value + _dailyRewardView.TimeCooldown;
+                    
+                    var currentClaimCooldown = nextClaimTime.FromUnixTimestamp() - 
+                                               DateTime.Parse(AWSSDKUtils.FormattedCurrentTimestampGMT);
                     var timeGetReward =
-                        $"{currentClaimCooldown.Days:D2}:{currentClaimCooldown.Hours:D2}:{currentClaimCooldown.Seconds:D2}";
+                        $"{currentClaimCooldown.Hours:D2}:{currentClaimCooldown.Minutes:D2}:{currentClaimCooldown.Seconds:D2}";
                     _dailyRewardView.TimerNewReward.text = $"Time to get the next reward: {timeGetReward}";
                 }
             }
@@ -129,7 +120,7 @@ namespace CarGameScripts.Reward
                     throw new ArgumentOutOfRangeException();
             }
 
-            _dailyRewardView.TimeGetReward = DateTime.UtcNow;
+            _dailyRewardView.TimeGetReward = DateTime.Parse(AWSSDKUtils.FormattedCurrentTimestampGMT).ToUnixTimestamp();
             _dailyRewardView.CurrentSlotInActive =
                 (_dailyRewardView.CurrentSlotInActive + 1) % _dailyRewardView.Rewards.Count;
 
@@ -142,6 +133,16 @@ namespace CarGameScripts.Reward
             _dailyRewardView.CurrentSlotInActive = 0;
             _dailyRewardView.TimeGetReward = null;
             CurrencySingletonView.Instance.Reset();
+        }
+
+        public void Execute(float deltaTime)
+        {
+            _time += deltaTime;
+            if (_time < 1)
+                return;
+
+            _time %= 1.0f;
+            RefreshRewardsState();
         }
     }
 }

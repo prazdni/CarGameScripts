@@ -1,5 +1,10 @@
 ﻿namespace Tools
 {
+    public interface IInitialize
+    {
+        void Init();
+    }
+    
     public interface IInitialize<T>
     {
         void Init(T initObject);

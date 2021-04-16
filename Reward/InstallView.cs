@@ -1,22 +1,18 @@
 ﻿using System;
+using Tools;
 using UnityEngine;
 
 namespace CarGameScripts.Reward
 {
-    public class InstallView : MonoBehaviour
+    public class InstallView : MonoBehaviour, IInitialize<DailyRewardController>
     {
         [SerializeField] private DailyRewardView _dailyRewardView;
 
         private DailyRewardController _dailyRewardController;
 
-        private void Awake()
+        public void Init(DailyRewardController initObject)
         {
-            _dailyRewardController = new DailyRewardController(_dailyRewardView);
-        }
-
-        private void Start()
-        {
-            _dailyRewardController.RefreshView();
+            initObject.Init(_dailyRewardView);
         }
     }
 }

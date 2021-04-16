@@ -28,8 +28,8 @@ namespace CarGameScripts.Reward
 
         private void Start()
         {
-            _currencyDictionary.Add(WoodKey, PlayerPrefs.GetInt(WoodKey, 0));
-            _currencyDictionary.Add(DiamondKey, PlayerPrefs.GetInt(DiamondKey, 0));
+            _currencyDictionary.Add(WoodKey, DataStorage.Wood.Read());
+            _currencyDictionary.Add(DiamondKey, DataStorage.Diamonds.Read());
             
             RefreshText();
         }
@@ -38,8 +38,8 @@ namespace CarGameScripts.Reward
         {
             base.OnApplicationQuit();
             
-            PlayerPrefs.SetInt(WoodKey, Wood);
-            PlayerPrefs.SetInt(DiamondKey, Diamonds);
+            DataStorage.Wood.Write(Wood);
+            DataStorage.Diamonds.Write(Diamonds);
         }
         
         public void AddWood(int value)

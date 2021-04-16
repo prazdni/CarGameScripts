@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,8 +11,8 @@ namespace CarGameScripts.Reward
         private const string TimeGetRewardKey = nameof(TimeGetRewardKey);
 
         [Header("Settings Time Get Reward")] 
-        [SerializeField] private float _timeCooldown = 86400;
-        [SerializeField] private float _timeDeadline = 172800;
+        [SerializeField] private int _timeCooldown = 86400;
+        [SerializeField] private int _timeDeadline = 172800;
 
         [Header("Settings Rewards"), SerializeField] private List<Reward> _rewards;
 
@@ -24,8 +23,8 @@ namespace CarGameScripts.Reward
         [SerializeField] private Button _getRewardButton;
         [SerializeField] private Button _resetButton;
 
-        public float TimeCooldown => _timeCooldown;
-        public float TimeDeadline => _timeDeadline;
+        public int TimeCooldown => _timeCooldown;
+        public int TimeDeadline => _timeDeadline;
         public List<Reward> Rewards => _rewards;
         public TMP_Text TimerNewReward => _timerNewReward;
         public Transform MountRootSlotsReward => _mountRootSlotsReward;
@@ -34,7 +33,7 @@ namespace CarGameScripts.Reward
         public Button ResetButton => _resetButton;
         
         private readonly Dictionary<string, int> _currentSlotInActive = new Dictionary<string, int>();
-        private readonly Dictionary<string, DateTime?> _timeGetReward = new Dictionary<string, DateTime?>();
+        private readonly Dictionary<string, long?> _timeGetReward = new Dictionary<string, long?>();
 
         public int CurrentSlotInActive
         {
@@ -42,7 +41,7 @@ namespace CarGameScripts.Reward
             set => _currentSlotInActive[CurrentSlotInActiveKey] = value;
         }
 
-        public DateTime? TimeGetReward
+        public long? TimeGetReward
         {
             get => _timeGetReward[TimeGetRewardKey];
             set => _timeGetReward[TimeGetRewardKey] = value;
@@ -57,18 +56,17 @@ namespace CarGameScripts.Reward
 
         private void SetCurrentSlot()
         {
-            _currentSlotInActive.Add(CurrentSlotInActiveKey, PlayerPrefs.GetInt(CurrentSlotInActiveKey, 0));
+            _currentSlotInActive.Add(CurrentSlotInActiveKey, DataStorage.CurrentSlotInActive.Read());
         }
 
         private void SetCurrentTimeGetReward()
         {
-            var data = PlayerPrefs.GetString(TimeGetRewardKey, null);
-            DateTime? dateTime = null;
+            var data = DataStorage.DateTime.Read();
+            long? dateTime = null;
             
             if (!string.IsNullOrEmpty(data))
             {
-                dateTime = DateTime.Parse(data);
-                Debug.Log(dateTime.Value.Second);
+                dateTime = long.Parse(data);
             }
             
             _timeGetReward.Add(TimeGetRewardKey, dateTime);
@@ -84,16 +82,16 @@ namespace CarGameScripts.Reward
         {
             if (_currentSlotInActive.TryGetValue(CurrentSlotInActiveKey, out var value))
             {
-                PlayerPrefs.SetInt(CurrentSlotInActiveKey, value);
+                DataStorage.CurrentSlotInActive.Write(value);
             }
             
             if (_timeGetReward[TimeGetRewardKey] == null)
             {
-                PlayerPrefs.DeleteKey(TimeGetRewardKey);
+                DataStorage.DateTime.Remove();
             }
             else
             {
-                PlayerPrefs.SetString(TimeGetRewardKey, _timeGetReward[TimeGetRewardKey].ToString());
+                DataStorage.DateTime.Write(_timeGetReward[TimeGetRewardKey].Value.ToString());
             }
         }
     }
