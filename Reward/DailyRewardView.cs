@@ -18,6 +18,7 @@ namespace CarGameScripts.Reward
 
         [Header("Ui Elements")]
         [SerializeField] private TMP_Text _timerNewReward;
+        [SerializeField] private Image _timerImage;
         [SerializeField] private Transform _mountRootSlotsReward;
         [SerializeField] private ContainerSlotRewardView _containerSlotRewardView;
         [SerializeField] private Button _getRewardButton;
@@ -27,6 +28,7 @@ namespace CarGameScripts.Reward
         public int TimeDeadline => _timeDeadline;
         public List<Reward> Rewards => _rewards;
         public TMP_Text TimerNewReward => _timerNewReward;
+        public Image TimerImage => _timerImage;
         public Transform MountRootSlotsReward => _mountRootSlotsReward;
         public ContainerSlotRewardView ContainerSlotRewardView => _containerSlotRewardView;
         public Button GetRewardButton => _getRewardButton;

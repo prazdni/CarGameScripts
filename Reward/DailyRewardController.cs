@@ -82,6 +82,9 @@ namespace CarGameScripts.Reward
                     var timeGetReward =
                         $"{currentClaimCooldown.Hours:D2}:{currentClaimCooldown.Minutes:D2}:{currentClaimCooldown.Seconds:D2}";
                     _dailyRewardView.TimerNewReward.text = $"Time to get the next reward: {timeGetReward}";
+                    _dailyRewardView.TimerImage.fillAmount =
+                        ((nextClaimTime - DateTime.Parse(AWSSDKUtils.FormattedCurrentTimestampGMT).ToUnixTimestamp()) /
+                        (float)_dailyRewardView.TimeCooldown);
                 }
             }
 
@@ -132,6 +135,7 @@ namespace CarGameScripts.Reward
             PlayerPrefs.DeleteAll();
             _dailyRewardView.CurrentSlotInActive = 0;
             _dailyRewardView.TimeGetReward = null;
+            _dailyRewardView.TimerImage.fillAmount = 0.0f;
             CurrencySingletonView.Instance.Reset();
         }
 
