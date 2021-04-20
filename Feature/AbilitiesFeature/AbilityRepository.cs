@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CarGameScripts.ContentDataSource.Ability;
 using CarGameScripts.Feature.AbilitiesFeature.Abilities;
 using CarGameScripts.Feature.AbilitiesFeature.Interface;
-using Tools;
 using Object = UnityEngine.Object;
 
 namespace CarGameScripts.Feature.AbilitiesFeature
 {
     public class AbilityRepository : IRepository<int, IAbility>
     {
-        private SubscriptionAction _onRepositoryDispose;
         public IReadOnlyDictionary<int, IAbility> Collection => _abilityMapById;
         private readonly Dictionary<int, IAbility> _abilityMapById = new Dictionary<int, IAbility>();
 
         public AbilityRepository(List<AbilityItemConfig> itemConfigs)
         {
-            _onRepositoryDispose = new SubscriptionAction();
             PopulateItems(ref _abilityMapById, itemConfigs);
         }
 

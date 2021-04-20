@@ -1,4 +1,6 @@
-﻿using CarGameScripts.Analytic;
+﻿using System;
+using Amazon.Util;
+using CarGameScripts.Analytic;
 using Profile;
 using UnityEngine;
 
@@ -14,6 +16,11 @@ internal sealed class Root : MonoBehaviour
         ProfilePlayer profilePlayer = new ProfilePlayer(_speedCar, new UnityAnalyticTools());
         profilePlayer.CurrentState.Value = GameState.Start;
         _mainController = new MainController(_placeForUi, profilePlayer);
+    }
+
+    private void Update()
+    {
+        _mainController.Execute(Time.deltaTime);
     }
 
     private void OnDestroy()

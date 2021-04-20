@@ -1,20 +1,17 @@
-﻿using System.Linq;
-using CarGameScripts.ContentDataSource;
-using CarGameScripts.ContentDataSource.Items;
-using CarGameScripts.Feature.InventoryFeature;
+﻿using CarGameScripts.Feature.InventoryFeature;
 using CarGameScripts.Feature.InventoryFeature.Interface;
-using CarGameScripts.Feature.ShedFeature.UpgradeHandlers;
 using CarGameScripts.Garage;
+using CarGameScripts.Reward;
 using Game;
-using Game.Trail;
 using Profile;
 using Tools;
 using Ui;
 using UnityEngine;
 
-internal sealed class MainController : BaseController
+internal sealed class MainController : BaseController, IExecute
 {
     private MainMenuController _mainMenuController;
+    private RewardController _rewardController;
     private GameController _gameController;
     private GarageController _garageController;
     private readonly Transform _placeForUi;
@@ -28,6 +25,8 @@ internal sealed class MainController : BaseController
         _inventoryModel = ConfigureInventoryModel();
         OnChangeGameState(_profilePlayer.CurrentState.Value);
         profilePlayer.CurrentState.SubscribeOnChange(OnChangeGameState);
+        
+        _rewardController = new RewardController();
     }
 
     private void OnChangeGameState(GameState state)
@@ -67,5 +66,10 @@ internal sealed class MainController : BaseController
     private IInventoryModel ConfigureInventoryModel()
     {
         return new InventoryModel();
+    }
+
+    public void Execute(float deltaTime)
+    {
+        _rewardController?.Execute(deltaTime);
     }
 }
