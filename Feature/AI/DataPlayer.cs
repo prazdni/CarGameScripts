@@ -3,7 +3,7 @@ using AI.Interface;
 
 namespace AI
 {
-    public abstract class DataPlayer
+    public class DataPlayer
     {
         public string TitleData => _titleData;
         private readonly string _titleData;
@@ -67,7 +67,7 @@ namespace AI
         
         private List<IEnemy> _enemies = new List<IEnemy>();
         
-        protected DataPlayer(string titleData)
+        public DataPlayer(string titleData)
         {
             _titleData = titleData;
         }

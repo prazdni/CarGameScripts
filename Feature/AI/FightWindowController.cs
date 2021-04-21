@@ -11,11 +11,8 @@ namespace AI
         private FightWindowView _fightWindowView;
         
         private Enemy _enemy;
-        private Criminal _criminal;
-        private Health _health;
-        private Power _power;
-        private Money _money;
-        
+        private DataPlayer _dataPlayer;
+
         private int _allCountMoneyPlayer;
         private int _allCountHealthPlayer;
         private int _allCountPowerPlayer;
@@ -39,17 +36,8 @@ namespace AI
         {
             _enemy = new Enemy("Enemy");
             
-            _money = new Money(nameof(Money));
-            _money.Attach(_enemy);
-            
-            _health = new Health(nameof(Health));
-            _health.Attach(_enemy);
-            
-            _power = new Power(nameof(Power));
-            _power.Attach(_enemy);
-            
-            _criminal = new Criminal(nameof(Criminal));
-            _criminal.Attach(_enemy);
+            _dataPlayer = new DataPlayer(nameof(DataPlayer));
+            _dataPlayer.Attach(_enemy);
 
             SubscribeButtons();
         }
@@ -149,19 +137,19 @@ namespace AI
                     break;
                 case DataType.Money:
                     _fightWindowView.CountMoneyText.text = $"Player Money {countChangeData.ToString()}";
-                    _money.Money = countChangeData;
+                    _dataPlayer.Money = countChangeData;
                     break;
                 case DataType.Health:
                     _fightWindowView.CountHealthText.text = $"Player Health {countChangeData.ToString()}";
-                    _health.Health = countChangeData;
+                    _dataPlayer.Health = countChangeData;
                     break;
                 case DataType.Power:
                     _fightWindowView.CountPowerText.text = $"Player Power {countChangeData.ToString()}";
-                    _power.Power = countChangeData;
+                    _dataPlayer.Power = countChangeData;
                     break;
                 case DataType.Criminal:
                     _fightWindowView.CountCriminalText.text = $"Player Criminal {countChangeData.ToString()}";
-                    _criminal.Criminal = countChangeData;
+                    _dataPlayer.Criminal = countChangeData;
                     break;
             }
 
@@ -197,11 +185,8 @@ namespace AI
             _fightWindowView.FightButton.onClick.RemoveAllListeners();
             _fightWindowView.LeaveFightButton.onClick.RemoveAllListeners();
 
-            _money.Detach(_enemy);
-            _health.Detach(_enemy);
-            _power.Detach(_enemy);
-            _criminal.Detach(_enemy);
-            
+            _dataPlayer.Detach(_enemy);
+
             base.OnDispose();
         }
     }
