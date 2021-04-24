@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CarGameScripts.Reward
 {
-    public class RewardController : BaseController, IExecute
+    public class RewardController : BaseController
     {
         private readonly SubscriptionProperty<GameState> _currentState;
         private readonly ResourcePath _viewPath = new ResourcePath {PathResource = "Prefabs/RewardWindow"};
@@ -35,11 +35,6 @@ namespace CarGameScripts.Reward
             return objectView.GetComponent<InstallView>();
         }
 
-        public void Execute(float deltaTime)
-        {
-            _dailyRewardController.Execute(deltaTime);
-        }
-        
         private void OnChangeGameState(GameState state)
         {
             switch (state)

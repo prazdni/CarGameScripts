@@ -4,4 +4,9 @@
     {
         void Execute(float deltaTime);
     }
+
+    public interface IExecuteParameterless
+    {
+        void Execute();
+    }
 }

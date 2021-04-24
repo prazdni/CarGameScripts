@@ -18,11 +18,6 @@ internal sealed class Root : MonoBehaviour
         _mainController = new MainController(_placeForUi, profilePlayer);
     }
 
-    private void Update()
-    {
-        _mainController.Execute(Time.deltaTime);
-    }
-
     private void OnDestroy()
     {
         _mainController?.Dispose();

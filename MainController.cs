@@ -9,7 +9,7 @@ using Tools;
 using Ui;
 using UnityEngine;
 
-internal sealed class MainController : BaseController, IExecute
+internal sealed class MainController : BaseController
 {
     private MainMenuController _mainMenuController;
     private RewardController _rewardController;
@@ -86,10 +86,5 @@ internal sealed class MainController : BaseController, IExecute
     private IInventoryModel ConfigureInventoryModel()
     {
         return new InventoryModel();
-    }
-
-    public void Execute(float deltaTime)
-    {
-        _rewardController?.Execute(deltaTime);
     }
 }
