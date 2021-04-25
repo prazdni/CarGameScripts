@@ -36,6 +36,7 @@ namespace CarGameScripts.AssetBundles
             var addressablePrefab = 
                 Addressables.InstantiateAsync(_loadPrefab, _mountSpawnTransform);
             _addressablePrefabs.Add(addressablePrefab);
+            Debug.Log("?");
         }
     }
 }
