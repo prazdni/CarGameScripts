@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace CarGameScripts.UI
 {
+    [RequireComponent(typeof(AudioSource))]
     public class CustomButton : Button
     {
         public static string ChangeButtonType => nameof(_animationButtonType);
@@ -18,12 +19,14 @@ namespace CarGameScripts.UI
 
         private float _strength = 30.0f;
         private RectTransform _rectTransform;
+        private AudioSource _audioSource;
 
         protected override void Awake()
         {
             base.Awake();
 
             _rectTransform = GetComponent<RectTransform>();
+            _audioSource = GetComponent<AudioSource>();
         }
 
         public override void OnPointerClick(PointerEventData eventData)
@@ -31,6 +34,7 @@ namespace CarGameScripts.UI
             base.OnPointerClick(eventData);
 
             ActivateAnimation();
+            ActivateSound();
         }
 
         private void ActivateAnimation()
@@ -44,6 +48,11 @@ namespace CarGameScripts.UI
                     _rectTransform.DOShakePosition(_duration, Vector2.one * _strength).SetEase(_curveEase);
                     break;
             }
+        }
+
+        private void ActivateSound()
+        {
+            _audioSource.Play();
         }
     }
 }

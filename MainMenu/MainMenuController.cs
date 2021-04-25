@@ -2,20 +2,20 @@
 using Profile;
 using Tools;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Ui
 {
     internal sealed class MainMenuController : BaseController
     {
-        private readonly ResourcePath _viewPath = new ResourcePath {PathResource = "Prefabs/mainMenu"};
+        private readonly ResourcePath _viewPath = new ResourcePath {PathResource = "Assets/Resources_moved/Prefabs/mainMenu.prefab"};
         private readonly ProfilePlayer _profilePlayer;
-        private readonly MainMenuView _view;
+        private MainMenuView _view;
         
         public MainMenuController(Transform placeForUi, ProfilePlayer profilePlayer)
         {
             _profilePlayer = profilePlayer;
-            _view = LoadView(placeForUi);
-            _view.Init(OnStateChanged);
+            LoadView(placeForUi);
 
             var cursorTrailController = ConfigureCursorTrail();
         }
@@ -27,17 +27,28 @@ namespace Ui
             return cursorTrailController;
         }
 
-        private MainMenuView LoadView(Transform placeForUi)
+        private void LoadView(Transform placeForUi)
         {
-            GameObject objectView = Object.Instantiate(ResourceLoader.LoadPrefab(_viewPath), placeForUi, false);
-            AddGameObjects(objectView);
-            return objectView.GetComponent<MainMenuView>();
+            Addressables.LoadAssetAsync<GameObject>(_viewPath.PathResource).Completed +=
+                handle =>
+                {
+                    _view = Object.Instantiate(handle.Result, placeForUi).GetComponent<MainMenuView>();
+                    AddGameObjects(_view.gameObject);
+                    _view.Init(OnStateChanged);
+                };
         }
 
         private void OnStateChanged(GameState state)
         {
             _profilePlayer.CurrentState.Value = state;
             _profilePlayer.AnalyticTools.SendMessage(state.ToString());
+        }
+
+        protected override void OnDispose()
+        {
+            Addressables.ReleaseInstance(_view.gameObject);
+            
+            base.OnDispose();
         }
     }
 }

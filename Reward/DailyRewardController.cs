@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Amazon.Util;
+using JoostenProductions;
 using Tools;
 using UnityEngine;
 
 namespace CarGameScripts.Reward
 {
-    public class DailyRewardController : BaseController, IInitialize<DailyRewardView>, IExecute
+    public class DailyRewardController : BaseController, IInitialize<DailyRewardView>, IExecuteParameterless
     {
         private DailyRewardView _dailyRewardView;
         private List<ContainerSlotRewardView> _slots;
@@ -17,6 +18,8 @@ namespace CarGameScripts.Reward
         public void Init(DailyRewardView initObject)
         {
             _dailyRewardView = initObject;
+            
+            UpdateManager.SubscribeToUpdate(Execute);
             
             InitSlots();
 
@@ -139,14 +142,20 @@ namespace CarGameScripts.Reward
             CurrencySingletonView.Instance.Reset();
         }
 
-        public void Execute(float deltaTime)
+        public void Execute()
         {
-            _time += deltaTime;
+            _time += Time.deltaTime;
             if (_time < 1)
                 return;
 
             _time %= 1.0f;
             RefreshRewardsState();
+        }
+
+        protected override void OnDispose()
+        {
+            UpdateManager.UnsubscribeFromUpdate(Execute);
+            base.OnDispose();
         }
     }
 }

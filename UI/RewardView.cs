@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using Profile;
 using TMPro;
 using Tools;
 using UnityEngine;
@@ -79,11 +80,6 @@ namespace CarGameScripts.UI
                 sequence = null;
                 _reward.gameObject.SetActive(false);
             });
-        }
-
-        private void AnimationFastHide()
-        {
-            
         }
     }
 }
