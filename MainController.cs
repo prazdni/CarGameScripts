@@ -5,7 +5,6 @@ using CarGameScripts.Garage;
 using CarGameScripts.Reward;
 using Game;
 using Profile;
-using Tools;
 using Ui;
 using UnityEngine;
 
@@ -60,7 +59,7 @@ internal sealed class MainController : BaseController
                 _fightWindowController?.Dispose();
                 break;
             case GameState.Fight:
-                _fightWindowController = new FightWindowController(_profilePlayer);
+                _fightWindowController = new FightWindowController(_profilePlayer, _placeForUi);
                 _mainMenuController?.Dispose();
                 _startFightController?.Dispose();
                 _gameController?.Dispose();

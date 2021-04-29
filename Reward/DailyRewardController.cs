@@ -12,12 +12,15 @@ namespace CarGameScripts.Reward
         private DailyRewardView _dailyRewardView;
         private List<ContainerSlotRewardView> _slots;
 
+        private string _timeText;
         private bool _isGetReward;
         private float _time;
 
         public void Init(DailyRewardView initObject)
         {
             _dailyRewardView = initObject;
+
+            _timeText = _dailyRewardView.TimerNewReward.text;
             
             UpdateManager.SubscribeToUpdate(Execute);
             
@@ -72,7 +75,7 @@ namespace CarGameScripts.Reward
 
             if (_isGetReward)
             {
-                _dailyRewardView.TimerNewReward.text = "The reward is received today";
+                _dailyRewardView.TimerNewReward.text = $"{_timeText}: -";
             }
             else
             {
@@ -84,7 +87,7 @@ namespace CarGameScripts.Reward
                                                DateTime.Parse(AWSSDKUtils.FormattedCurrentTimestampGMT);
                     var timeGetReward =
                         $"{currentClaimCooldown.Hours:D2}:{currentClaimCooldown.Minutes:D2}:{currentClaimCooldown.Seconds:D2}";
-                    _dailyRewardView.TimerNewReward.text = $"Time to get the next reward: {timeGetReward}";
+                    _dailyRewardView.TimerNewReward.text = $"{_timeText}: {timeGetReward}";
                     _dailyRewardView.TimerImage.fillAmount =
                         ((nextClaimTime - DateTime.Parse(AWSSDKUtils.FormattedCurrentTimestampGMT).ToUnixTimestamp()) /
                         (float)_dailyRewardView.TimeCooldown);

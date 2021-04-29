@@ -12,17 +12,10 @@ namespace Game
         
         public CarController(SubscriptionProperty<float> leftMove, SubscriptionProperty<float> rightMove)
         {
-            _carView = LoadView();
+            _carView = LoadView<CarView>(_viewPath, null);
             
             WheelController wheelController = new WheelController(_carView, leftMove, rightMove);
             AddController(wheelController);
-        }
-
-        private CarView LoadView()
-        {
-            GameObject objView = Object.Instantiate(ResourceLoader.LoadPrefab(_viewPath));
-            AddGameObjects(objView);
-            return objView.GetComponent<CarView>();
         }
 
         public GameObject GetViewObject()

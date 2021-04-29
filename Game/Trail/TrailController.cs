@@ -14,7 +14,13 @@ namespace Game.Trail
 
         public TrailController()
         {
-            _view = LoadView();
+            //ONViewLoaded += OnViewLoaded();
+            //_view = LoadAddressableView(_viewPath);
+            _view = LoadView<TrailView>(_viewPath, null);
+        }
+
+        private void OnViewLoaded()
+        {
             _view.Init();
         }
         

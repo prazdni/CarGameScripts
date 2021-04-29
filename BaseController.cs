@@ -1,13 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tools;
+using Ui;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using Object = UnityEngine.Object;
 
 public abstract class BaseController : IDisposable
 {
+    protected event Action<AsyncOperationHandle<GameObject>> ONViewLoaded;
     private List<BaseController> _baseControllers;
     private List<GameObject> _gameObjects;
     private bool _isDisposed;
+
+    protected BaseController()
+    {
+        ONViewLoaded += OnViewLoaded;
+    }
     
     public void Dispose()
     {
@@ -48,6 +58,23 @@ public abstract class BaseController : IDisposable
     {
         _gameObjects ??= new List<GameObject>();
         _gameObjects.Add(gameObject);
+    }
+
+    protected T LoadView<T>(ResourcePath resourcePath, Transform placeForUi)
+    {
+        GameObject objectView = Object.Instantiate(ResourceLoader.LoadPrefab(resourcePath), placeForUi, false);
+        AddGameObjects(objectView);
+        return objectView.GetComponent<T>();
+    }
+    
+    protected void LoadAddressableView(ResourcePath resourcePath)
+    {
+        Addressables.LoadAssetAsync<GameObject>(resourcePath.PathResource).Completed += 
+            handle => ONViewLoaded.Invoke(handle);
+    }
+    
+    protected virtual void OnViewLoaded(AsyncOperationHandle<GameObject> handle)
+    {
     }
 
     protected virtual void OnDispose()
