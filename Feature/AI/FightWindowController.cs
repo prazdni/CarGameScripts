@@ -1,13 +1,15 @@
 ﻿using Profile;
 using Tools;
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace AI
 {
     public class FightWindowController : BaseController, IInitialize
     {
         private readonly ProfilePlayer _profilePlayer;
-        private readonly ResourcePath _viewPath = new ResourcePath {PathResource = "Prefabs/FightWindow"};
+        private readonly Transform _placeForUi;
+        private readonly ResourcePath _viewPath = new ResourcePath {PathResource = "Assets/Resources_moved/Prefabs/FightWindow.prefab"};
         private FightWindowView _fightWindowView;
         
         private Enemy _enemy;
@@ -18,13 +20,38 @@ namespace AI
         private int _allCountPowerPlayer;
         private int _allCountCriminalPlayer;
 
-        public FightWindowController(ProfilePlayer profilePlayer)
+        private string _moneyText;
+        private string _healthText;
+        private string _powerText;
+        private string _criminalText;
+        private string _enemyPowerText;
+
+        public FightWindowController(ProfilePlayer profilePlayer, Transform placeForUi)
         {
             _profilePlayer = profilePlayer;
-            _fightWindowView = LoadView();
-            Init();
+            _placeForUi = placeForUi;
+            LoadAddressableView(_viewPath);
+
         }
-        
+
+        protected override void OnViewLoaded(AsyncOperationHandle<GameObject> handle)
+        {
+            base.OnViewLoaded(handle);
+            
+            _fightWindowView = Object.Instantiate(handle.Result).GetComponent<FightWindowView>();
+            AddGameObjects(_fightWindowView.gameObject);
+            
+            Init();
+            
+            _moneyText = _fightWindowView.CountMoneyText.text;
+            _healthText = _fightWindowView.CountHealthText.text;
+            _powerText = _fightWindowView.CountPowerText.text;
+            _criminalText = _fightWindowView.CountCriminalText.text;
+            _enemyPowerText = _fightWindowView.CountPowerEnemyText.text;
+            
+            ChangeDataWindow(0, DataType.None);
+        }
+
         private FightWindowView LoadView()
         {
             GameObject objectView = Object.Instantiate(ResourceLoader.LoadPrefab(_viewPath));
@@ -134,26 +161,30 @@ namespace AI
             switch (dataType)
             {
                 case DataType.None:
+                    _fightWindowView.CountMoneyText.text = $"{_moneyText}: {countChangeData.ToString()}";
+                    _fightWindowView.CountHealthText.text = $"{_healthText}: {countChangeData.ToString()}";
+                    _fightWindowView.CountPowerText.text = $"{_powerText}: {countChangeData.ToString()}";
+                    _fightWindowView.CountCriminalText.text = $"{_criminalText}: {countChangeData.ToString()}";
                     break;
                 case DataType.Money:
-                    _fightWindowView.CountMoneyText.text = $"Player Money {countChangeData.ToString()}";
+                    _fightWindowView.CountMoneyText.text = $"{_moneyText}: {countChangeData.ToString()}";
                     _dataPlayer.Money = countChangeData;
                     break;
                 case DataType.Health:
-                    _fightWindowView.CountHealthText.text = $"Player Health {countChangeData.ToString()}";
+                    _fightWindowView.CountHealthText.text = $"{_healthText}: {countChangeData.ToString()}";
                     _dataPlayer.Health = countChangeData;
                     break;
                 case DataType.Power:
-                    _fightWindowView.CountPowerText.text = $"Player Power {countChangeData.ToString()}";
+                    _fightWindowView.CountPowerText.text = $"{_powerText}: {countChangeData.ToString()}";
                     _dataPlayer.Power = countChangeData;
                     break;
                 case DataType.Criminal:
-                    _fightWindowView.CountCriminalText.text = $"Player Criminal {countChangeData.ToString()}";
+                    _fightWindowView.CountCriminalText.text = $"{_criminalText}: {countChangeData.ToString()}";
                     _dataPlayer.Criminal = countChangeData;
                     break;
             }
 
-            _fightWindowView.CountPowerEnemyText.text = $"Enemy Power {_enemy.Power}";
+            _fightWindowView.CountPowerEnemyText.text = $"{_enemyPowerText}: {_enemy.Power}";
         }
         
         private void Fight()

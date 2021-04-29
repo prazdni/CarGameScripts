@@ -10,32 +10,37 @@ using Profile;
 using Tools;
 using Ui;
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace CarGameScripts.Garage
 {
-    public class GarageController : BaseController
+    public sealed class GarageController : BaseController
     {
-        private readonly ResourcePath _viewPath = new ResourcePath {PathResource = "Prefabs/Garage"};
+        private readonly ResourcePath _viewPath = new ResourcePath {PathResource = "Assets/Resources_moved/Prefabs/Garage.prefab"};
+        private readonly Transform _placeForUi;
         private readonly ProfilePlayer _profilePlayer;
+        private readonly IInventoryModel _inventoryModel;
         private IShedController _shedController;
 
         private GarageView _view;
 
         public GarageController(Transform placeForUi, ProfilePlayer profilePlayer, IInventoryModel inventoryModel)
         {
+            _placeForUi = placeForUi;
             _profilePlayer = profilePlayer;
-            _view = LoadView(placeForUi);
-            _view.Init(OnStateChanged);
-            _shedController = ConfigureShedController(placeForUi, profilePlayer, inventoryModel);
+            _inventoryModel = inventoryModel;
+            LoadAddressableView(_viewPath);
         }
-        
-        private GarageView LoadView(Transform placeForUi)
+
+        protected override void OnViewLoaded(AsyncOperationHandle<GameObject> handle)
         {
-            GameObject objectView = Object.Instantiate(ResourceLoader.LoadPrefab(_viewPath), placeForUi, false);
-            AddGameObjects(objectView);
-            return objectView.GetComponent<GarageView>();
+            base.OnViewLoaded(handle);
+            _view = Object.Instantiate(handle.Result, _placeForUi).GetComponent<GarageView>();
+            AddGameObjects(_view.gameObject);
+            _view.Init(OnStateChanged);
+            _shedController = ConfigureShedController(_placeForUi, _profilePlayer, _inventoryModel);
         }
-        
+
         private void OnStateChanged(GameState state)
         {
             _profilePlayer.CurrentState.Value = state;

@@ -11,15 +11,8 @@ namespace Game.InputLogic
         
         public InputGameController(SubscriptionProperty<float> leftMove, SubscriptionProperty<float> rightMove, Car car)
         {
-            _view = LoadView();
+            _view = LoadView<BaseInputView>(_viewPath, null);
             _view.Init(leftMove, rightMove, car.Speed.Value);
-        }
-
-        private BaseInputView LoadView()
-        {
-            GameObject objView = Object.Instantiate(ResourceLoader.LoadPrefab(_viewPath));
-            AddGameObjects(objView);
-            return objView.GetComponent<BaseInputView>();
         }
     } 
 }

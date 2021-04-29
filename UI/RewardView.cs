@@ -13,7 +13,6 @@ namespace CarGameScripts.UI
     {
         [SerializeField] private Button _buttonClosePopup;
         [SerializeField] private float _duration = 0.3f;
-        [SerializeField] private TextBehaviour _text;
         [SerializeField] private RectTransform _reward;
         [SerializeField] private List<RectTransform> _rectTransforms;
         private bool _isActive;
@@ -37,12 +36,10 @@ namespace CarGameScripts.UI
 
             if (_isActive)
             {
-                _text.ChangeText("Close Reward");
                 Show();
             }
             else
             {
-                _text.ChangeText("Open Reward");
                 Hide();
             }
         }
